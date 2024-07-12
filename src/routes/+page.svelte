@@ -1,6 +1,8 @@
 <script>
     import bg from '$lib/assets/bg.webp';
     let bgStyle = `background-image: url(${bg});`;
+    import { AppBar } from '@skeletonlabs/skeleton';
+    import logo from '$lib/assets/logo.webp';
 </script>
 
 
@@ -25,7 +27,14 @@
         background: rgba(219, 215, 215, 0.5);
     }
 </style>
-
+<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
+	<svelte:fragment slot="lead">(icon)</svelte:fragment>
+	(title)
+	<svelte:fragment slot="trail">(actions)</svelte:fragment>
+</AppBar>
 
 <div class="bg-container" style={bgStyle}>
 </div>
+
+
+

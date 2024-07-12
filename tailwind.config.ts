@@ -1,6 +1,7 @@
 
 import { join } from 'path';
 import type { Config } from 'tailwindcss';
+import { themeAUB } from './themeAUB'
 
 // 1. Import the Skeleton plugin
 import { skeleton } from '@skeletonlabs/tw-plugin';
@@ -19,10 +20,15 @@ const config = {
 	theme: {
 		extend: {},
 	},
-	plugins: [
-		// 4. Append the Skeleton plugin (after other plugins)
-		skeleton
-	]
+    plugins: [
+        skeleton({
+            themes: {
+                custom: [
+                    themeAUB
+                ]
+            }
+        })
+    ]
 } satisfies Config;
 
 export default config;
