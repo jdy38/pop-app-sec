@@ -1,6 +1,11 @@
 <script>
     import { AppBar } from '@skeletonlabs/skeleton';
     import logo from '$lib/assets/logo.webp';
+    import Navbar from './Navbar.svelte';
+	import Sidebar from './Sidebar.svelte';
+    import Main from './Main.svelte';
+    
+    let open = false;
 </script>
 
 <div class="div-1">
@@ -19,6 +24,10 @@
         </svelte:fragment>
     </AppBar>
 </div>
+
+<Sidebar bind:open/>
+<Navbar bind:sidebar={open}/>
+<Main/>
 
 <style>
     .div-1 {
