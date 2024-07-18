@@ -42,11 +42,6 @@
         z-index: 2; /* Ensure the form is above the .bg-container */
     }
 </style>
-<AppBar background="bg-primary-500">
-    <svelte:fragment slot="lead">
-        <img src={logo} alt="logo" style="height: 4rem;" />
-    </svelte:fragment>
-</AppBar>
 
 <div class="bg-container" style={bgStyle}>
     <div class="background flex flex-col items-center justify-center min-h-screen">
@@ -86,12 +81,3 @@
         </div>
       </div>
 </div>
-
-
-
-
-<!-- <AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
-	<svelte:fragment slot="lead">(icon)</svelte:fragment>
-	(title)
-	<svelte:fragment slot="trail">(actions)</svelte:fragment>
-</AppBar> -->

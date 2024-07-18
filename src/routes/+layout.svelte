@@ -3,19 +3,31 @@
 	// import { AppShell, AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
 
 	import logo from '$lib/assets/logo.webp';
+  import Sidebar from '$lib/custom_comp/Sidebar.svelte';
+  import { AppBar } from '@skeletonlabs/skeleton';
+
+  export let loggedIn = true;
 </script>
 
-<slot />
-<!-- <AppShell class="bg-surface-500">
-    <AppRail
-        slot="sidebarLeft"
-        width="w-28"
-        gap="gap-5"
-        regionLead="flex justify-center items-center p-2"
-        background="bg-secondary-500 text-slate-400/45"
-        active="bg-tertiary-500/50 text-white"
-	>
-    </AppRail>
+<AppBar background="bg-primary-500">
+  <svelte:fragment slot="lead">
+      <img src={logo} alt="logo" class='h-16' />
+  </svelte:fragment>
+  <svelte:fragment slot="trail">
+    {#if loggedIn}
+      <p class="font-sans text-white">Hi, Jed!</p>
 
-    <slot />
-</AppShell> -->
+      <div class="circle-placeholder"></div>
+
+      <button class="font-sans text-yellow-500 underline" on:click={() =>{loggedIn = false;}}>
+        Logout
+      </button>
+    {/if}
+  </svelte:fragment>
+</AppBar>
+<div class='size-full flex flex-row'>
+  {#if loggedIn}
+    <Sidebar />
+  {/if}
+  <slot />
+</div>
