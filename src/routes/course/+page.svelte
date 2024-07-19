@@ -1,9 +1,9 @@
 <script>
     import { AppBar, Accordion, AccordionItem } from '@skeletonlabs/skeleton';
     import logo from '$lib/assets/logo.webp';
-    import Navbar from '../dashboard/Navbar.svelte';
-	import Sidebar from '../dashboard/Sidebar.svelte';
-    import Main from '../dashboard/Main.svelte';
+    // import Navbar from '../dashboard/Navbar.svelte';
+	// import Sidebar from '../dashboard/Sidebar.svelte';
+    // import Main from '../dashboard/Main.svelte';
     
     let open = false;
 </script>
