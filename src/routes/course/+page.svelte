@@ -8,27 +8,7 @@
     let open = false;
 </script>
 
-<div class="div-1">
-    <AppBar>
-        <svelte:fragment slot="lead">
-            <div class="logo-container">
-                <img src={logo} alt="Logo" style="height: 70px; width: auto;" />
-            </div>
-        </svelte:fragment>
-        <svelte:fragment slot="trail">
-            <p class="font-sans text-white">Hi, Jed!</p>
-
-            <div class="circle-placeholder"></div>
-
-            <p class="font-sans text-yellow-500 underline">Logout</p>
-        </svelte:fragment>
-    </AppBar>
-</div>
-<Navbar bind:sidebar={open}/>
-<div class="layout">
-    <div class="side">
-        <Sidebar bind:open/>
-    </div>
+<div class="grid size-full">
     <div class="content">
         <div class="cards-container">
             <div class="card bg-gray-100">
@@ -107,19 +87,6 @@
 
 
 <style>
-    .div-1 {
-        background-color: #C33521;
-    }
-
-    .circle-placeholder {
-        width: 40px; 
-        height: 40px;
-        border-radius: 50%; 
-        background-color: #ccc; 
-        margin-right: 10px; 
-        display: inline-block; 
-    }
-
     .cards-container {
         display: flex;
         flex-direction: column;
@@ -136,7 +103,6 @@
     .layout {
         display: grid;
         grid-template-columns: 60px auto;
-        height: 100vh;
     }
 
     h1 {
