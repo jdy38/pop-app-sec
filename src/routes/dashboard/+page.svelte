@@ -1,7 +1,7 @@
 <script lang="ts">
     import filterImage from '$lib/assets/filter.png';
     import moduleImage from '$lib/assets/sample_module_pic.jpg';
-    import moduleBox from './moduleBox.svelte';
+    // import moduleBox from './moduleBox.svelte';
     export let data;
 
     let barWidth = 60;
