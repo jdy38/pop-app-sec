@@ -1,10 +1,8 @@
 <script lang="ts">
-    import { AppBar } from '@skeletonlabs/skeleton';
-    import logo from '$lib/assets/logo.webp';
-    import avatar from '$lib/assets/avatar1.jpg';
     import filterImage from '$lib/assets/filter.png';
     import moduleImage from '$lib/assets/sample_module_pic.jpg';
-    import { ProgressBar } from '@skeletonlabs/skeleton';
+    // import moduleBox from './moduleBox.svelte';
+    export let data;
 
     let barWidth = 60;
 </script>
@@ -43,127 +41,34 @@
 
         <div class="h-[20px]"></div> 
 
-        <div class = "flex-auto grid grid-cols-3 m-[10px] content-start justify-evenly gap-x-[20px] gap-y-[30px]">
-            <div id="module-box" class="space-y-[10px]">
-                <div class="bg-gradient-to-t from-yellow-600 via-transparent via-30% relative h-[300px]">
-                    <img src={moduleImage} class="w-full h-full object-cover absolute mix-blend-overlay drop-shadow-xl border-black border-[1.5px]"/>
-                    <h1 class="absolute pb-2 inset-x-0 bottom-0 text-white text-2xl font-sans font-bold text-center drop-shadow-xl">Module 1</h1>
-                </div>
-                
-                <p class="text-center">Estimated hrs: 1 - 1.5 | Topics: 7</p>
+        <div class="grid grid-cols-3 gap-4 m-5"	>
+            {#if data.chapters && data.chapters.length}
+                {#each data.chapters as chapter (chapter.chapterID)}
+                    <a href="/courses/{chapter.chapterID}"><div id="module-box" class="space-y-[10px] drop-shadow-xl hover:border-[10px]">
+                        <div class="bg-gradient-to-t from-yellow-600 via-transparent via-30% relative h-[300px]">
+                            <img src={moduleImage} class="w-full h-full object-cover absolute mix-blend-overlay drop-shadow-xl border-black border-[1.5px]"/>
+                            <h1 class="absolute pb-2 inset-x-0 bottom-0 text-white text-2xl font-sans font-bold text-center drop-shadow-xl hover:underline">Module {chapter.chapterID}: {chapter.chapterName}</h1>
+                        </div>
+                                    
+                        <p class="text-center">Estimated hrs: 1 - 1.5 | Topics: 7</p>
 
-                <div id="progress-container" class="flex-auto pb-4">
-                    <div class="grid grid-cols-10 gap-x-[10px]">
-                        <div class="col-span-1">
-                            <p class="text-xs text-right"> 60%</p>
+                        <div id="progress-container" class="flex-auto pb-4">
+                            <div class="grid grid-cols-10 gap-x-[10px]">
+                                <div class="col-span-1">
+                                    <p class="text-xs text-right"> {barWidth}%</p>
+                                </div>
+                                <div class="col-span-9 relative border-2 w-full border-green-400 rounded-full place-self-center h-[10px]">
+                                    <div class="col-span-9 absolute bottom-0 top-0 left-0 w-3/5 bg-green-400 rounded-full place-self-center h-[10px]"></div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-span-9 relative border-2 w-full border-green-400 rounded-full place-self-center h-[10px]">
-                            <div class="col-span-9 absolute bottom-0 top-0 left-0 w-3/5 bg-green-400 rounded-full place-self-center h-[10px]"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="module-box" class="space-y-[10px]">
-                <div class="bg-gradient-to-t from-yellow-600 via-transparent via-30% relative h-[300px]">
-                    <img src={moduleImage} class="w-full h-full object-cover absolute mix-blend-overlay drop-shadow-xl border-black border-[1.5px]"/>
-                    <h1 class="absolute pb-2 inset-x-0 bottom-0 text-white text-2xl font-sans font-bold text-center drop-shadow-xl">Module 1</h1>
-                </div>
-                
-                <p class="text-center">Estimated hrs: 1 - 1.5 | Topics: 7</p>
-
-                <div id="progress-container" class="flex-auto pb-4">
-                    <div class="grid grid-cols-10 gap-x-[10px]">
-                        <div class="col-span-1">
-                            <p class="text-xs text-right"> 60%</p>
-                        </div>
-                        <div class="col-span-9 relative border-2 w-full border-green-400 rounded-full place-self-center h-[10px]">
-                            <div class="col-span-9 absolute bottom-0 top-0 left-0 w-3/5 bg-green-400 rounded-full place-self-center h-[10px]"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="module-box" class="space-y-[10px]">
-                <div class="bg-gradient-to-t from-yellow-600 via-transparent via-30% relative h-[300px]">
-                    <img src={moduleImage} class="w-full h-full object-cover absolute mix-blend-overlay drop-shadow-xl border-black border-[1.5px]"/>
-                    <h1 class="absolute pb-2 inset-x-0 bottom-0 text-white text-2xl font-sans font-bold text-center drop-shadow-xl">Module 1</h1>
-                </div>
-                
-                <p class="text-center">Estimated hrs: 1 - 1.5 | Topics: 7</p>
-
-                <div id="progress-container" class="flex-auto pb-4">
-                    <div class="grid grid-cols-10 gap-x-[10px]">
-                        <div class="col-span-1">
-                            <p class="text-xs text-right"> 60%</p>
-                        </div>
-                        <div class="col-span-9 relative border-2 w-full border-green-400 rounded-full place-self-center h-[10px]">
-                            <div class="col-span-9 absolute bottom-0 top-0 left-0 w-3/5 bg-green-400 rounded-full place-self-center h-[10px]"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="module-box" class="space-y-[10px]">
-                <div class="bg-gradient-to-t from-yellow-600 via-transparent via-30% relative h-[300px]">
-                    <img src={moduleImage} class="w-full h-full object-cover absolute mix-blend-overlay drop-shadow-xl border-black border-[1.5px]"/>
-                    <h1 class="absolute pb-2 inset-x-0 bottom-0 text-white text-2xl font-sans font-bold text-center drop-shadow-xl">Module 1</h1>
-                </div>
-                
-                <p class="text-center">Estimated hrs: 1 - 1.5 | Topics: 7</p>
-
-                <div id="progress-container" class="flex-auto pb-4">
-                    <div class="grid grid-cols-10 gap-x-[10px]">
-                        <div class="col-span-1">
-                            <p class="text-xs text-right"> 60%</p>
-                        </div>
-                        <div class="col-span-9 relative border-2 w-full border-green-400 rounded-full place-self-center h-[10px]">
-                            <div class="col-span-9 absolute bottom-0 top-0 left-0 w-3/5 bg-green-400 rounded-full place-self-center h-[10px]"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="module-box" class="space-y-[10px]">
-                <div class="bg-gradient-to-t from-yellow-600 via-transparent via-30% relative h-[300px]">
-                    <img src={moduleImage} class="w-full h-full object-cover absolute mix-blend-overlay drop-shadow-xl border-black border-[1.5px]"/>
-                    <h1 class="absolute pb-2 inset-x-0 bottom-0 text-white text-2xl font-sans font-bold text-center drop-shadow-xl">Module 1</h1>
-                </div>
-                
-                <p class="text-center">Estimated hrs: 1 - 1.5 | Topics: 7</p>
-
-                <div id="progress-container" class="flex-auto pb-4">
-                    <div class="grid grid-cols-10 gap-x-[10px]">
-                        <div class="col-span-1">
-                            <p class="text-xs text-right"> 60%</p>
-                        </div>
-                        <div class="col-span-9 relative border-2 w-full border-green-400 rounded-full place-self-center h-[10px]">
-                            <div class="col-span-9 absolute bottom-0 top-0 left-0 w-3/5 bg-green-400 rounded-full place-self-center h-[10px]"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="module-box" class="space-y-[10px]">
-                <div class="bg-gradient-to-t from-yellow-600 via-transparent via-30% relative h-[300px]">
-                    <img src={moduleImage} class="w-full h-full object-cover absolute mix-blend-overlay drop-shadow-xl border-black border-[1.5px]"/>
-                    <h1 class="absolute pb-2 inset-x-0 bottom-0 text-white text-2xl font-sans font-bold text-center drop-shadow-xl">Module 1</h1>
-                </div>
-                
-                <p class="text-center">Estimated hrs: 1 - 1.5 | Topics: 7</p>
-
-                <div id="progress-container" class="flex-auto pb-4">
-                    <div class="grid grid-cols-10 gap-x-[10px]">
-                        <div class="col-span-1">
-                            <p class="text-xs text-right"> 60%</p>
-                        </div>
-                        <div class="col-span-9 relative border-2 w-full border-green-400 rounded-full place-self-center h-[10px]">
-                            <div class="col-span-9 absolute bottom-0 top-0 left-0 w-3/5 bg-green-400 rounded-full place-self-center h-[10px]"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    </div></a>
+                {/each}
+            {:else}
+                <p>"Nothing here"</p>
+            {/if}
         </div>
+
     </div>
 <!-- </div> -->
 
