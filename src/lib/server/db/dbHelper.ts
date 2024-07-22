@@ -105,4 +105,10 @@ const editExampleById = async (example: InsertExampleParams & { id: number }) =>
 	await db.update(examples).set(example).where(eq(examples.exampleID, examples.exampleID));
 };
 
-export { deleteExampleById, editExampleById, getAllExamples, getExampleById, createNewExample};
+const getExampleByRequirementId = async (id: number) => {
+	const example_list = await db.select().from(examples).where(eq(examples.requirementID, id));
+
+	return example_list;
+};
+
+export { deleteExampleById, editExampleById, getAllExamples, getExampleById, createNewExample, getExampleByRequirementId};

@@ -1,18 +1,44 @@
-<script>
-    import { AppBar, Accordion, AccordionItem } from '@skeletonlabs/skeleton';
-    import logo from '$lib/assets/logo.webp';
-    import Navbar from '../dashboard/Navbar.svelte';
-	import Sidebar from '../dashboard/Sidebar.svelte';
-    import Main from '../dashboard/Main.svelte';
+<script lang="ts">
+    import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
+    import { onMount } from 'svelte';
     
-    let open = false;
+    export let data;
+
+    // Function to format the requirementID
+    const formatRequirementID = (id: number): string => {
+        // Convert ID to string
+        const idStr = id.toString();
+
+        // Get the last three digits
+        const lastThreeDigits = idStr.slice(-3);
+
+        // Format the digits as "x.y.z"
+        return lastThreeDigits.split('').join('.').replace(/^(\d)\.(\d)\.(\d)$/, '$1.$2.$3');
+    };
+
+    // Use the function to get the formatted ID
+    const formattedID = formatRequirementID(data.requirement.requirementID);
+
+    let formattedVulnerability = '';
+    let formattedHowToCode = '';
+
+    onMount(() => {
+        formattedVulnerability = insertLineBreaks(data.requirement.vulnerability|| '');
+        formattedHowToCode = insertLineBreaks(data.requirement.how_to_code|| '');
+    });
+
+    function insertLineBreaks(text: string): string {
+        if (!text) return '';
+        // Insert <br> before each bullet point
+        return text.replace(/(•)/g, '<br>$1');
+    }
 </script>
 
 <div class="grid size-full">
     <div class="content">
         <div class="cards-container">
             <div class="card bg-gray-100">
-                <h1 class="font-sans text-yellow-500 font-bold">Course Title</h1>
+                <h1 class="font-sans text-yellow-500 font-bold">{data.chapter.chapterID}: {data.chapter.chapterName}</h1>
                 <div class ="tags-container">
                     <div class="tag">tag 1</div>
                     <div class="tag">tag 2</div>
@@ -21,20 +47,38 @@
                 </div>
             </div>
             <div class="card bg-gray-100">
-                <h1 class="font-sans text-yellow-500 font-bold">Topic 1.1</h1><br>
+                <h1 class="font-sans text-yellow-500 font-bold">Requirement {formattedID}</h1><br>
                 <p class=" text-justify leading-7">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis iaculis lacus. Aliquam nec massa iaculis, tincidunt elit vitae, dapibus nunc. Vivamus id lacus ut nisi sodales consequat. Nam mollis tortor libero, vitae laoreet tortor viverra vel. In varius, orci sit amet egestas viverra, augue elit scelerisque ligula, vel lobortis sem nibh non ex. Integer ac nisl vitae erat varius pharetra pellentesque eget massa. Pellentesque convallis gravida iaculis. Vivamus nulla nibh, posuere quis faucibus ac, rhoncus ut magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent scelerisque in arcu non semper. Phasellus pellentesque, elit ac hendrerit porttitor, leo ex molestie diam, sit amet pulvinar tortor turpis vel nisl. Mauris eleifend blandit egestas.
+                    <strong>{data.requirement.content}</strong><br><br>
+                    {#if data.requirement.vulnerability}
+                        <strong>Vulnerability</strong><br>
+                        {@html formattedVulnerability}<br><br>
+                     {/if}
+            
+                    {#if data.requirement.how_to_code}
+                        <strong>How to Code</strong><br>
+                        {@html formattedHowToCode}<br>
+                    {/if}
                 </p>
             </div>
             <div class="card bg-gray-100">
-                <h1 class="font-sans text-yellow-500 font-bold">Code Snippets</h1>
-                <pre>
-                    <code>
-                        {`const example = () => {
-                            console.log('Code snippet goes here.');
-                        };`}
-                    </code>
-                </pre>
+                <h1 class="font-sans text-yellow-500 font-bold">Code Snippets</h1><br>
+                <div class="divider"></div>
+                <ul>
+                    {#each data.examples as example (example.exampleID)}
+                        <li>
+                            {#if example.example_code && example.example_code.trim() !== ""}
+                                <br><h2 class='font-sans text-yellow-500 font-bold'>{example.exampleName}</h2>
+                                <code>
+                                    {example.example_code}
+                                </code>
+                                <div class="divider"></div>
+                            {:else}
+                                <p>No code snippet available.</p>
+                            {/if}
+                        </li>
+                    {/each}
+                </ul>
             </div>
             <div class="card bg-gray-100">
                 <h1 class="font-sans text-yellow-500 font-bold">Additional References</h1><br>
@@ -98,11 +142,7 @@
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .layout {
-        display: grid;
-        grid-template-columns: 60px auto;
+        overflow: hidden;
     }
 
     h1 {
@@ -113,7 +153,7 @@
     .content {
         overflow-y: auto; /* Enable vertical scrolling */
         padding: 20px;
-        height:calc(100vh - 140px);
+        height:calc(100vh - 100px);
     }
 
     .circle {
@@ -175,5 +215,15 @@
         display: grid;
         grid-template-columns: 6.5% 93.5%;
         padding: 1em;
+    }
+
+    code {
+        display: block; /* Make code block-level */
+        white-space: pre-wrap; /* Preserve whitespace and wrap text */
+        word-wrap: break-word; /* Break long words onto the next line */
+        max-width: 100%; /* Limit width to container */
+        overflow: hidden; /* Hide overflow content */
+        padding: 0.5em;
+        margin: 3em;
     }
 </style>
