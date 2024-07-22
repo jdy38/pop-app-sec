@@ -5,6 +5,33 @@
     export let data;
 
     let barWidth = 60;
+
+    // Function to find requirementID based on chapterID
+    function getRequirementID(chapterID: number) {
+        // Find the section with the given chapterID
+        const section = data.sections.find(sec => sec.chapterID === chapterID);
+
+        if (section) {
+            // Find the first requirement that matches the sectionID
+            const requirement = data.requirements.find(req => req.sectionID === section.sectionID);
+            
+            // Return the requirementsID if a match is found, otherwise return null
+            if (requirement) {
+                return requirement.requirementID;
+            }
+            return "nomatch";
+        }
+        // Return null if no section matches the chapterID
+        return "nomatch";
+    }
+
+    function getAllTopics(chapterID: number) {
+        // Find all sections with the given chapterID
+        const sections = data.sections.filter(sec => sec.chapterID === chapterID);
+        const numSections = sections.length;
+        return numSections;
+    }
+
 </script>
 
 <!-- <div class="outer"> -->
@@ -44,18 +71,18 @@
         <div class="grid grid-cols-3 gap-4 m-5"	>
             {#if data.chapters && data.chapters.length}
                 {#each data.chapters as chapter (chapter.chapterID)}
-                    <a href="/courses/{chapter.chapterID}"><div id="module-box" class="space-y-[10px] drop-shadow-xl hover:border-[10px]">
+                    <a href="/course/{getRequirementID(chapter.chapterID)}"><div id="module-box" class="space-y-[10px] drop-shadow-xl hover:border-[10px]">
                         <div class="bg-gradient-to-t from-yellow-600 via-transparent via-30% relative h-[300px]">
                             <img src={moduleImage} class="w-full h-full object-cover absolute mix-blend-overlay drop-shadow-xl border-black border-[1.5px]"/>
                             <h1 class="absolute pb-2 inset-x-0 bottom-0 text-white text-2xl font-sans font-bold text-center drop-shadow-xl hover:underline">Module {chapter.chapterID}: {chapter.chapterName}</h1>
                         </div>
                                     
-                        <p class="text-center">Estimated hrs: 1 - 1.5 | Topics: 7</p>
+                        <p class="text-center">Estimated hrs: {getAllTopics(chapter.chapterID)/2} - {getAllTopics(chapter.chapterID)/2 + 1} | Topics: {getAllTopics(chapter.chapterID)}</p>
 
                         <div id="progress-container" class="flex-auto pb-4">
                             <div class="grid grid-cols-10 gap-x-[10px]">
                                 <div class="col-span-1">
-                                    <p class="text-xs text-right"> {barWidth}%</p>
+                                    <p class="text-xs text-right"> {Math.floor(Math.random() * 100)}%</p>
                                 </div>
                                 <div class="col-span-9 relative border-2 w-full border-green-400 rounded-full place-self-center h-[10px]">
                                     <div class="col-span-9 absolute bottom-0 top-0 left-0 w-3/5 bg-green-400 rounded-full place-self-center h-[10px]"></div>
