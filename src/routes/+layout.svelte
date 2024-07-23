@@ -5,6 +5,7 @@
   import { AppBar } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
   import homeIcon from '$lib/assets/home.png';
+  import avatarImage from '$lib/assets/avatar1.jpg';
 
   export let data;
 
@@ -40,9 +41,11 @@
   </svelte:fragment>
   <svelte:fragment slot="trail">
     {#if $loggedIn}
-      <p class="font-sans text-white">Hi, Jed!</p>
+      <p class="font-sans text-white">Hi, Jed! | Chief Security Officer | 00001</p>
 
-      <div class="circle-placeholder"></div>
+      <div class="circle-placeholder">
+        <img class="w-10 h-10 rounded-full" src={avatarImage} alt="Rounded avatar"/>
+      </div>
 
       <button class="font-sans text-yellow-500 underline" on:click={() => { $loggedIn = false; goto('/'); }}>
         Logout
