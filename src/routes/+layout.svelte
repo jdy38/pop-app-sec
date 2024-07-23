@@ -15,6 +15,21 @@
   
   const baseCss = 'flex flex-col h-full w-16 gap-0 bg-tertiary-700 shrink-0';
   const transitionCss = 'transition ease-out duration-200';
+
+  function getHref(sectionid: number) {
+    const strSectionID = sectionid.toString();
+    if (strSectionID[0] === "1") {
+      return `/section/${sectionid}`;
+    } else {
+      // Given the sectionID, find the first page
+      // If section.sectionID matches that of requirement.sectionID, get the first page of that section 
+      const requirements = data.requirements.find(req => req.sectionID === sectionid);
+      if (requirements) {
+        return `/course/${requirements.pages}`;
+      }
+    }
+    
+  }
 </script>
 
 <!-- Navbar -->
@@ -66,7 +81,7 @@
               <div class='pl-5 pr-2 pb-5 my-2'>
                 {#each data.sections[cIdx] as section, sIdx (sIdx)}
                   <div class='text-tertiary-400 pl-4 p-1 border-b-2 border-tertiary-800'>
-                    <a href='/course/{section.sectionID}11'>{section.chapterID}.{sIdx + 1}. {section.sectionName}
+                    <a href='{getHref(section.sectionID)}'>{section.chapterID}.{sIdx + 1}. {section.sectionName}
                   </div>
                 {/each}
               </div>
