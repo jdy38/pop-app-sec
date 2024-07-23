@@ -1,12 +1,21 @@
 <script>
+	import { goto } from '$app/navigation';
     import bg from '$lib/assets/bg.webp';
+    import { loggedIn } from '../stores.js';
     let bgStyle = `background-image: url(${bg});`;
-    import { AppBar } from '@skeletonlabs/skeleton';
-    import logo from '$lib/assets/logo.webp';
 
     let fullName = '';
     let idNumber = '';
     let positionField = '';
+
+    let loginForm;
+    function login() {
+        $loggedIn = true;
+        goto('/dashboard');
+        loginForm.requestSubmit();
+    }
+
+    const inputBoxCss = "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500";
 </script>
 
 
@@ -51,32 +60,31 @@
             </div>
             <div class="bg-tertiary-500 p-6 rounded-lg shadow-lg mt-6 max-w-md w-full form-container">
             <h2 class="text-xl font-semibold mb-4">Please enter your details:</h2>
-            <form class="space-y-4">
+            <div class="space-y-4" bind:this={loginForm}>
                 <input
                 type="text"
                 placeholder="Full Name..."
                 bind:value={fullName}
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class={ inputBoxCss }
                 />
                 <input
                 type="text"
                 placeholder="ID Number..."
                 bind:value={idNumber}
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class={ inputBoxCss }
                 />
                 <input
                 type="text"
                 placeholder="Position Field..."
                 bind:value={positionField}
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class={ inputBoxCss }
                 />
                 <button
-                type="submit"
                 class="w-full bg-blue-500 text-white px-3 py-2 rounded-md hover:bg-blue-600"
-                >
+                on:click={() => {$loggedIn = true; goto('/dashboard');}}>
                 Submit
                 </button>
-            </form>
+            </div>
             </div>
         </div>
       </div>
