@@ -58,11 +58,11 @@
   {#if $loggedIn}
     <!-- Sidebar -->
     <div class='{baseCss} {transitionCss}' class:open>
-      <button class='size-16 hover:bg-blue-500 shrink-0' on:click={openSidebar}>
-        {open ? 'X' : 'O'}
+      <button class='size-16 hover:bg-tertiary-800 shrink-0 text-3xl' on:click={openSidebar}>
+        {open ? 'x' : '≡'}
       </button>
       <div class='flex flex-row h-16 hover:bg-tertiary-800 shrink-0'>
-        <a class='h-full w-16 text-center align-middle hover:bg-blue-500' href='/dashboard'><img src={homeIcon} class="h-[30px] m-[17px]"/></a>
+        <a class='h-full w-16 text-center align-middle hover:bg-tertiary-800' href='/dashboard'><img src={homeIcon} class="h-[30px] m-[17px]"/></a>
         {#if open}
           <button class='flex h-full justify-between grow items-center' on:click={openCourses}>
             <div>Courses</div>
