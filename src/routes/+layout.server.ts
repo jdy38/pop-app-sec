@@ -1,4 +1,4 @@
-import { getAllChapters } from '$lib/server/db/dbHelper';
+import { getAllChapters, getAllRequirements } from '$lib/server/db/dbHelper';
 import { getAllSections } from '$lib/server/db/dbHelper';
 
 // comment out type for js
@@ -13,6 +13,7 @@ export const load = async () => {
 	return {
 		chapters: (await getAllChapters()).map(x => ({...x, open: false})),
     sections: parseSections(await getAllSections()),
+	requirements: await getAllRequirements()
 	};
 };
 

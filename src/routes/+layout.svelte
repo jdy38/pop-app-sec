@@ -4,6 +4,8 @@
 	import logo from '$lib/assets/logo.webp';
   import { AppBar } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
+  import homeIcon from '$lib/assets/home.png';
+  import avatarImage from '$lib/assets/avatar1.jpg';
 
   export let data;
 
@@ -15,6 +17,21 @@
   
   const baseCss = 'flex flex-col h-full w-16 gap-0 bg-tertiary-700 shrink-0';
   const transitionCss = 'transition ease-out duration-200';
+
+  function getHref(sectionid: number) {
+    const strSectionID = sectionid.toString();
+    if (strSectionID[0] === "1") {
+      return `/section/${sectionid}`;
+    } else {
+      // Given the sectionID, find the first page
+      // If section.sectionID matches that of requirement.sectionID, get the first page of that section 
+      const requirements = data.requirements.find(req => req.sectionID === sectionid);
+      if (requirements) {
+        return `/course/${requirements.pages}`;
+      }
+    }
+    
+  }
 </script>
 
 <!-- Navbar -->
@@ -24,9 +41,11 @@
   </svelte:fragment>
   <svelte:fragment slot="trail">
     {#if $loggedIn}
-      <p class="font-sans text-white">Hi, Jed!</p>
+      <p class="font-sans text-white">Hi, Jed! | Chief Security Officer | 00001</p>
 
-      <div class="circle-placeholder"></div>
+      <div class="circle-placeholder">
+        <img class="w-10 h-10 rounded-full" src={avatarImage} alt="Rounded avatar"/>
+      </div>
 
       <button class="font-sans text-yellow-500 underline" on:click={() => { $loggedIn = false; goto('/'); }}>
         Logout
@@ -43,7 +62,7 @@
         {open ? 'X' : 'O'}
       </button>
       <div class='flex flex-row h-16 hover:bg-tertiary-800 shrink-0'>
-        <a class='h-full w-16 text-center align-middle hover:bg-blue-500' href='/dashboard'>.</a>
+        <a class='h-full w-16 text-center align-middle hover:bg-blue-500' href='/dashboard'><img src={homeIcon} class="h-[30px] m-[17px]"/></a>
         {#if open}
           <button class='flex h-full justify-between grow items-center' on:click={openCourses}>
             <div>Courses</div>
@@ -66,7 +85,7 @@
               <div class='pl-5 pr-2 pb-5 my-2'>
                 {#each data.sections[cIdx] as section, sIdx (sIdx)}
                   <div class='text-tertiary-400 pl-4 p-1 border-b-2 border-tertiary-800'>
-                    <a href='/course/{section.sectionID}11'>{section.chapterID}.{sIdx + 1}. {section.sectionName}
+                    <a href='{getHref(section.sectionID)}'>{section.chapterID}.{sIdx + 1}. {section.sectionName}
                   </div>
                 {/each}
               </div>

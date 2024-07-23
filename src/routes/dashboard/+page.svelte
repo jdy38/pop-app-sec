@@ -7,10 +7,11 @@
 
     export let data;
     let barWidth = 60;
+    // let dropdownOpen = false;
 
     // Find requirementID based on chapterID
-    function getRequirementID(chapterID: number) {
-        const section = data.sections.find(sec => sec.chapterID === chapterID);
+    function getRequirementID(chapterid: number) {
+        const section = data.sections.find(sec => sec.chapterID === chapterid);
 
         if (section) {
             const requirement = data.requirements.find(req => req.sectionID === section.sectionID);
@@ -22,9 +23,31 @@
         return "nomatch";
     }
 
+    // Find first page for each chapterID
+    function getHref(chapterid: number) {
+        if (chapterid === 1) {
+            return `/section/101`;
+        } else {
+            const section = data.sections.find(sec => sec.chapterID === chapterid);
+
+            if (section) {
+                const requirement = data.requirements.find(req => req.sectionID === section.sectionID);
+                if (requirement) {
+                    return `/course/${requirement.pages}`;
+                }
+                return "nomatch";
+            }
+
+            return "nomatch";
+            };
+            
+    }
+    
+    // const test = getFirstCoursePage(4);
+    // console.log("test", test);
     // Find all sections with the given chapterID
-    function getAllTopics(chapterID: number) {
-        const sections = data.sections.filter(sec => sec.chapterID === chapterID);
+    function getAllTopics(chapterid: number) {
+        const sections = data.sections.filter(sec => sec.chapterID === chapterid);
         const numSections = sections.length;
         return numSections;
     }
@@ -72,7 +95,7 @@
             </div>
 
             <div class="absolute left-0 inset-y-5 flex items-center">
-                <img src={filterImage} class="h-[30px] mr-2"/><p>Filter by tags</p>
+                <img src={filterImage} class="h-[30px] mr-2"/><p>Filter</p>
             </div>
         </div>
 
@@ -82,7 +105,7 @@
             {#if data.chapters && data.chapters.length}
                 <!-- {#each data.chapters as chapter, index (chapter.chapterID)} -->
                 {#each $searchStore.filtered as chapter, index (chapter.chapterID)}
-                    <a href="/course/{getRequirementID(chapter.chapterID)}"><div id="module-box" class="space-y-[10px] drop-shadow-xl hover:border-[10px]">
+                    <a href="{getHref(chapter.chapterID)}"><div id="module-box" class="space-y-[10px] drop-shadow-xl hover:border-[10px]">
                     <div class="bg-gradient-to-t from-yellow-600 via-transparent via-30% relative h-[300px]">
                         <img src={moduleImage} alt="" class="w-full h-full object-cover absolute mix-blend-overlay drop-shadow-xl border-black border-[1.5px]"/>
                         <h1 class="absolute pb-2 inset-x-0 bottom-0 text-white text-2xl font-sans font-bold text-center drop-shadow-xl hover:underline">Module {chapter.chapterID}: {chapter.chapterName}</h1>
