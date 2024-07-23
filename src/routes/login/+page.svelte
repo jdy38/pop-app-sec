@@ -79,7 +79,7 @@
               class={ inputBoxCss }
               />
               <button
-              class="w-full bg-blue-500 text-white px-3 py-2 rounded-md hover:bg-blue-600"
+              class="w-full bg-primary-500 text-white px-3 py-2 rounded-md hover:bg-primary-400"
               on:click={() => {$loggedIn = true; goto('/dashboard');}}>
               Submit
               </button>
