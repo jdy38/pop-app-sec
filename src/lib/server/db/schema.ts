@@ -27,7 +27,8 @@ const requirements = sqliteTable('requirements', {
     how_to_code: text('how_to_code'),
     sectionID: integer('sectionID')
         .notNull()
-        .references(() => sections.sectionID)
+        .references(() => sections.sectionID),
+    pages: integer('pages').notNull()
 });
 
 const examples = sqliteTable('examples', {

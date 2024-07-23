@@ -1,0 +1,1 @@
+ALTER TABLE `requirements` ADD `pages` integer NOT NULL;

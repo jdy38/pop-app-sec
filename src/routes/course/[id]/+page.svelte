@@ -4,6 +4,12 @@
     
     export let data;
 
+    let nextPage = data.requirement.pages + 1;
+    let prevPage = data.requirement.pages;
+    if (data.requirement.pages != 1) {
+        prevPage -= 1;
+    }
+
     // Function to format the requirementID
     const formatRequirementID = (id: number): string => {
         // Convert ID to string
@@ -25,7 +31,6 @@
         }
     };
 
-
     // Use the function to get the formatted ID
     const formattedID = formatRequirementID(data.requirement.requirementID);
 
@@ -33,14 +38,21 @@
     let formattedHowToCode = '';
 
     onMount(() => {
-        formattedVulnerability = insertLineBreaks(data.requirement.vulnerability|| '');
-        formattedHowToCode = insertLineBreaks(data.requirement.how_to_code|| '');
+        formattedVulnerability = insertLineBreaks(data.requirement.vulnerability || '');
+        formattedHowToCode = insertLineBreaks(data.requirement.how_to_code || '');
     });
+
+    
 
     function insertLineBreaks(text: string): string {
         if (!text) return '';
         // Insert <br> before each bullet point
         return text.replace(/(•)/g, '<br>$1');
+    }
+
+    function goToPage(page: number) {
+        const newUrl = `/course/${page}`;
+        window.location.assign(newUrl);
     }
 
     import { loggedIn } from '../../../stores.js';
@@ -102,7 +114,6 @@
             </div>
             <div class="card bg-gray-100">
                 <h1 class="font-sans text-yellow-500 font-bold">FAQ</h1><br>
-
                 <Accordion>
                     <AccordionItem>
                         <svelte:fragment slot="summary">
@@ -135,7 +146,10 @@
                         <svelte:fragment slot="content"><p class="answer">Answer 3</p><div class="divider"></div></svelte:fragment>
                     </AccordionItem>
                 </Accordion>
-
+            </div>
+            <div class="pagination-buttons">
+                <button class="pagination-button prev-button" on:click={() => goToPage(prevPage)}>Previous Page</button>
+                <button class="pagination-button next-button" on:click={() => goToPage(nextPage)}>Next Page</button>
             </div>
         </div>
     </div>
@@ -238,5 +252,36 @@
         overflow: hidden; /* Hide overflow content */
         padding: 0.5em;
         margin: 3em;
+    }
+    .pagination-buttons {
+        position: relative;
+        margin: 2em;
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        }
+
+    .pagination-button {
+        background-color: goldenrod; /* Button background color */
+        border: none;
+        color: white; /* Text color */
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s;
+    }
+
+    .pagination-button:hover {
+        background-color: darkgoldenrod; /* Darker color on hover */
+    }
+
+    .prev-button {
+        background-color: #f39c12; /* Customize button color if needed */
+    }
+
+    .next-button {
+        background-color: #f39c12; /* Customize button color if needed */
     }
 </style>
