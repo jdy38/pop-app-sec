@@ -4,6 +4,7 @@
 	import logo from '$lib/assets/logo.webp';
   import { AppBar } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
+  import homeIcon from '$lib/assets/home.png';
 
   export let data;
 
@@ -58,7 +59,7 @@
         {open ? 'X' : 'O'}
       </button>
       <div class='flex flex-row h-16 hover:bg-tertiary-800 shrink-0'>
-        <a class='h-full w-16 text-center align-middle hover:bg-blue-500' href='/dashboard'>.</a>
+        <a class='h-full w-16 text-center align-middle hover:bg-blue-500' href='/dashboard'><img src={homeIcon} class="h-[30px] m-[17px]"/></a>
         {#if open}
           <button class='flex h-full justify-between grow items-center' on:click={openCourses}>
             <div>Courses</div>
