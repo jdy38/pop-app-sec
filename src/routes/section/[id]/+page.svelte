@@ -1,47 +1,29 @@
 <script lang="ts">
     import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
-    import { onMount } from 'svelte';
     
     export let data;
 
-    // Function to format the requirementID
-    const formatRequirementID = (id: number): string => {
-        // Convert ID to string
+    const formatID = (id: number): string => {
         const idStr = id.toString();
 
-        if (idStr.length === 5) {
-            // Get the last three digits
-            const lastThreeDigits = idStr.slice(-3);
-
-            // Format the digits as "x.y.z"
-            return lastThreeDigits.split('').join('.').replace(/^(\d)\.(\d)\.(\d)$/, '$1.$2.$3');
-        } else if (idStr.length === 6) {
-            // Get the digits in the "2.10.1" format
-            const lastFourDigits = idStr.slice(-4);
-            return lastFourDigits.replace(/^(\d)(\d)(\d)(\d)$/, '$1.$2$3.$4');
-        } else {
-            // Handle unexpected lengths
-            throw new Error("ID must be either 5 or 6 digits long");
+        if (idStr.length === 3) {
+            if (idStr[1] === '0') {
+                return `${idStr[0]}.${idStr[2]}`;
+            } else {
+                return `${idStr[0]}.${idStr.slice(1)}`;
+    }
+        } else if (idStr.length === 4) {
+            if (idStr[2] === '0') {
+                return `${idStr.slice(0, 2)}.${idStr[3]}`;
+            } else {
+                return `${idStr.slice(0, 2)}.${idStr.slice(2)}`;
+            }
         }
-    };
-
+        return ''
+    }
 
     // Use the function to get the formatted ID
-    const formattedID = formatRequirementID(data.requirement.requirementID);
-
-    let formattedVulnerability = '';
-    let formattedHowToCode = '';
-
-    onMount(() => {
-        formattedVulnerability = insertLineBreaks(data.requirement.vulnerability|| '');
-        formattedHowToCode = insertLineBreaks(data.requirement.how_to_code|| '');
-    });
-
-    function insertLineBreaks(text: string): string {
-        if (!text) return '';
-        // Insert <br> before each bullet point
-        return text.replace(/(•)/g, '<br>$1');
-    }
+    const formattedID = formatID(data.section.sectionID);
 
     import { loggedIn } from '../../../stores.js';
     $loggedIn = true;
@@ -60,45 +42,10 @@
                 </div>
             </div>
             <div class="card bg-gray-100">
-                <h1 class="font-sans text-yellow-500 font-bold">Requirement {formattedID}</h1><br>
+                <h1 class="font-sans text-yellow-500 font-bold leading-tight">Section {formattedID}: {data.section.sectionName}</h1><br>
                 <p class=" text-justify leading-7">
-                    <strong>{data.requirement.content}</strong><br><br>
-                    {#if data.requirement.vulnerability}
-                        <strong>Vulnerability</strong><br>
-                        {@html formattedVulnerability}<br><br>
-                     {/if}
-            
-                    {#if data.requirement.how_to_code}
-                        <strong>How to Code</strong><br>
-                        {@html formattedHowToCode}<br>
-                    {/if}
+                    {data.section.description}
                 </p>
-            </div>
-            <div class="card bg-gray-100">
-                <h1 class="font-sans text-yellow-500 font-bold">Code Snippets</h1><br>
-                <div class="divider"></div>
-                <ul>
-                    {#each data.examples as example (example.exampleID)}
-                        <li>
-                            {#if example.example_code && example.example_code.trim() !== ""}
-                                <br><h2 class='font-sans text-yellow-500 font-bold'>{example.exampleName}</h2>
-                                <code>
-                                    {example.example_code}
-                                </code>
-                                <div class="divider"></div>
-                            {:else}
-                                <p>No code snippet available.</p>
-                            {/if}
-                        </li>
-                    {/each}
-                </ul>
-            </div>
-            <div class="card bg-gray-100">
-                <h1 class="font-sans text-yellow-500 font-bold">Additional References</h1><br>
-                <div class="video">
-                    <iframe width="640" height="360" src="https://www.youtube.com/embed/tgbNymZ7vqY" title="video" >
-                    </iframe>
-                </div>
             </div>
             <div class="card bg-gray-100">
                 <h1 class="font-sans text-yellow-500 font-bold">FAQ</h1><br>
@@ -140,8 +87,6 @@
         </div>
     </div>
 </div>
-
-
 
 <style>
     .cards-container {
@@ -199,12 +144,6 @@
         margin: 0.2em;
     }
 
-    .video {
-        display: flex;
-        justify-content: center;
-        padding: 1.5em;
-    }
-
     .text {
         font-family: lato;
         align-self: center;
@@ -230,13 +169,4 @@
         padding: 1em;
     }
 
-    code {
-        display: block; /* Make code block-level */
-        white-space: pre-wrap; /* Preserve whitespace and wrap text */
-        word-wrap: break-word; /* Break long words onto the next line */
-        max-width: 100%; /* Limit width to container */
-        overflow: hidden; /* Hide overflow content */
-        padding: 0.5em;
-        margin: 3em;
-    }
 </style>
