@@ -79,7 +79,13 @@ const editRequirementById = async (requirement: InsertRequirementParams & { id: 
 	await db.update(requirements).set(requirement).where(eq(requirements.requirementID, requirements.requirementID));
 };
 
-export { deleteRequirementById, editRequirementById, getAllRequirements, getRequirementById, createNewRequirement};
+const getRequirementByPage = async (id: number) => {
+	const requirement = await db.select().from(requirements).where(eq(requirements.pages, id));
+
+	return requirement[0];
+};
+
+export { deleteRequirementById, editRequirementById, getAllRequirements, getRequirementById, createNewRequirement, getRequirementByPage};
 
 // Examples
 
