@@ -32,6 +32,9 @@
         // Insert <br> before each bullet point
         return text.replace(/(•)/g, '<br>$1');
     }
+
+    import { loggedIn } from '../../../stores.js';
+    $loggedIn = true;
 </script>
 
 <div class="grid size-full">
